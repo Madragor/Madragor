@@ -1,12 +1,27 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <script src="https://unpkg.com/@tonconnect/sdk"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мой МиниАпп</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"><script>
+    // Создаем объект TonConnect
+    const tonConnect = new TonConnect();
+
+    async function connectWallet() {
+        try {
+            await tonConnect.connect(); // Запрос на подключение кошелька
+            alert("Кошелек TON подключен! ✅");
+        } catch (error) {
+            alert("Ошибка подключения: " + error.message);
+        }
+    }
+</script>
+</script>
 </head>
 <body>
+    <button onclick="connectWallet()">🔗 Подключить TON Wallet</button>
     <h1>Привет! Это мини-приложение в Telegram</h1>
     <button onclick="sendAlert()">Нажми меня</button>
     <script>
