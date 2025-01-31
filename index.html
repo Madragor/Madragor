@@ -1,32 +1,54 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <script src="https://unpkg.com/@tonconnect/sdk"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой МиниАпп</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"><script>
-    // Создаем объект TonConnect
-    const tonConnect = new TonConnect();
-
-    async function connectWallet() {
-        try {
-            await tonConnect.connect(); // Запрос на подключение кошелька
-            alert("Кошелек TON подключен! ✅");
-        } catch (error) {
-            alert("Ошибка подключения: " + error.message);
-        }
-    }
-</script>
-</script>
+    <title>Мой TON МиниАпп</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://unpkg.com/@tonconnect/sdk"></script>
 </head>
 <body>
+    <h1>Привет! Это мини-приложение с TON</h1>
+    
     <button onclick="connectWallet()">🔗 Подключить TON Wallet</button>
-    <h1>Привет! Это мини-приложение в Telegram</h1>
-    <button onclick="sendAlert()">Нажми меня</button>
+    <button onclick="sendTransaction()">💸 Отправить 0.01 TON</button>
+    <button onclick="checkBalance()">📊 Проверить баланс</button>
+
+    <p id="balance">Баланс: ... TON</p>
+
     <script>
-        function sendAlert() {
-            alert("Ты нажал на кнопку!");
+        const tonConnect = new TonConnect();
+
+        async function connectWallet() {
+            try {
+                await tonConnect.connect();
+                alert("Кошелек TON подключен! ✅");
+            } catch (error) {
+                alert("Ошибка подключения: " + error.message);
+            }
+        }
+
+        async function sendTransaction() {
+            const tx = {
+                to: "UQCA9UatQxukHf7VD8aKAe9NUt6l8WYbh4-pzkD-5KXPfNBe", // Укажи реальный адрес получателя
+                amount: "0.01",
+            };
+
+            try {
+                await tonConnect.sendTransaction(tx);
+                alert("Перевод отправлен! 💰");
+            } catch (error) {
+                alert("Ошибка перевода: " + error.message);
+            }
+        }
+
+        async function checkBalance() {
+            try {
+                const balance = await tonConnect.getBalance();
+                document.getElementById("balance").innerText = "Баланс: " + balance + " TON";
+            } catch (error) {
+                alert("Ошибка запроса баланса: " + error.message);
+            }
         }
     </script>
 </body>
